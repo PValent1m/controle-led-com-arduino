@@ -1,0 +1,52 @@
+int estado = 0;
+void setup() {
+  pinMode(A3, INPUT);
+  pinMode(10, OUTPUT);
+  pinMode(2,INPUT_PULLUP);
+  Serial.begin(9600);
+
+  
+  
+
+}
+
+void loop() {
+  int valor_lido = analogRead(A3);
+  int novo_valor = map(valor_lido,0,1023,0,255);
+  int botao = digitalRead(2);
+  
+  switch(estado){
+    case 0:
+    analogWrite(10, novo_valor);
+    Serial.println(valor_lido);
+    if(botao == 0){
+      estado = 1;
+      analogWrite(10, LOW);
+      Serial.println(botao);
+      delay(100);
+    }
+    break;
+    case 1:
+    if(botao == 1){
+      estado = 2;
+      delay(100);
+    }
+    break;
+    case 2:
+    if(botao == 0){
+      estado = 3;
+      delay(100);
+    }
+    break;
+    case 3:
+    if(botao == 1){
+      estado = 0;
+      analogWrite(10, LOW);
+      Serial.println(botao);
+      delay(100);
+    }
+  }
+
+
+ 
+}
